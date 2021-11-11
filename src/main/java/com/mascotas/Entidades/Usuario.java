@@ -142,4 +142,5 @@ public class Usuario {
     public void setFotoUsuario(Foto fotoUsuario) {
         this.fotoUsuario = fotoUsuario ;
     }    
+
 }

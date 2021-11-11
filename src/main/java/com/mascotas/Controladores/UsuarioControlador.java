@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -35,13 +36,18 @@ public class UsuarioControlador {
     
     
     @GetMapping("/editar-perfil")
-    public String editarPerfil(@RequestParam String id, ModelMap modelo) throws ExcepcionServicio{
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    public String editarPerfil(HttpSession session , @RequestParam String id, ModelMap modelo) throws ExcepcionServicio{
         List<Zona> lista = zRep.findAll();
         modelo.put("zonas", lista);
-      
+      Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+      if(usuarioLogueado == null || !usuarioLogueado.getId().equals(id) ){
+        return "redirect:/inicio";
+      }else{
             Usuario usuario = uRep.buscarPorId(id);
             modelo.addAttribute("perfil" , usuario);
         return "perfil.html";
+    }
     }
     @PostMapping("/actualizar-perfil")
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")

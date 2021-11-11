@@ -48,8 +48,9 @@ public class PortalControlador {
     que se asigne el ROLE_USUARIO_REGISTRADO. esto lo configuramos en el metodo
     de Springboot loadUserByUsername() que sebreescribimos en ServicioUsuario.
     En general,  todo aquel que posea este rol podra acceder a los metodos pre autorizados con esta anotacion*/
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    
     @GetMapping("/inicio")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     public String pantallaInicio(){
 
         return "inicio.html";
