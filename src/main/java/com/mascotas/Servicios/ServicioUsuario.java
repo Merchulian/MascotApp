@@ -37,6 +37,20 @@ public class ServicioUsuario implements UserDetailsService{
     private ZonaRepositorio zRep;
     @Autowired
     private ServicioFoto sFoto;
+    //                   ====    BUSQUEDA DE USUARIOS    ====
+    
+    @Transactional
+    public Usuario buscarPorId(String id) throws ExcepcionServicio{
+    Usuario usuario = null;
+    Optional<Usuario> query = uRep.findById(id);
+    if(query.isPresent()){
+        usuario = query.get();
+    }else{
+        throw new ExcepcionServicio("Usuario no encontrado");
+    }
+    return usuario;
+    }
+    
     
     //                    ====    REGISTRO DE NUEVOS USUARIOS    ====
     @Transactional
