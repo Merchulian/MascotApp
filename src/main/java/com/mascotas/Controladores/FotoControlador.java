@@ -18,28 +18,33 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.servlet.function.RequestPredicates.headers;
 
 @Controller
-@RequestMapping("/Foto")
+@RequestMapping("/foto")
 public class FotoControlador {
     @Autowired
     private ServicioUsuario sUsuario;
     
-    @GetMapping("/usuario")
-    public ResponseEntity<byte[]> fotousuario(String id) throws ExcepcionServicio{
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<byte[]> fotousuario(@PathVariable String id) throws ExcepcionServicio{
     try{
         Usuario usuario = sUsuario.buscarPorId(id);
         byte[] foto = usuario.getFotoUsuario().getContenido();
+        if(usuario.getFotoUsuario() == null){
+            throw new ExcepcionServicio("El usuario no posee fotografia");
+        
+        }else{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(foto , headers , HttpStatus.OK);
     
-    
+        }
     }catch(ExcepcionServicio ex){
     Logger.getLogger( FotoControlador.class.getName() ).log(Level.SEVERE, null , ex);}
-    
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
 

@@ -65,7 +65,8 @@
       <div class="row align-items-center">
         <div class="col-lg-6 order-lg-2">
           <div class="p-5">
-            <img class="img-fluid rounded-circle" src="img/m1.jpeg" alt="">
+            <img th:if="${perfil.fotoUsuario != null}" th:src="${'/foto/usuario/' + perfil.id}" class="img-fluid rounded-circle"  alt="foto del usuario">  
+            <img class="img-fluid rounded-circle" th:if="${perfil.fotoUsuario == null }" th:src="img/m1.jpeg" alt="foto por defecto: un perrito">
           </div>
         </div>
         <div class="col-lg-6 order-lg-1">
