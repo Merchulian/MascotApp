@@ -24,12 +24,12 @@ public class Usuario {
     private String clave;
     private Rol rol;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date alta;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date baja;
     
-    @OneToOne  //cambiar
+    @ManyToOne  //cambiar
     private Zona zonaUsuario;
     
     @OneToOne
@@ -37,6 +37,7 @@ public class Usuario {
 
     public Usuario() {
         this.rol = USER;
+        this.alta = new Date();
     }
   
     public Usuario(String id, String nombre, String apellido, String email, String clave, Rol rol, Date alta, Date baja, Zona zonaUsuario, Foto fotoUsuario) {

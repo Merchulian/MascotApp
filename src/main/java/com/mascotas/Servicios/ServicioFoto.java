@@ -23,7 +23,7 @@ public class ServicioFoto {
         id = "subir-foto de la vista user-info.html"          */
         
         
-        if(archivo != null){   //archivo hace referencia al archivo que estoy subiendo
+        if(archivo != null && !archivo.isEmpty()){   //archivo hace referencia al archivo que estoy subiendo
             try{
             Foto foto = new Foto();
             foto.setMime(archivo.getContentType());   // determino el tipo de archivo de la foto

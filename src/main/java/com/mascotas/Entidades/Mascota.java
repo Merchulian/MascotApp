@@ -1,8 +1,7 @@
-
-
 package com.mascotas.Entidades;
 
 import com.mascotas.Enumeraciones.Sexo;
+import com.mascotas.Enumeraciones.Tipo;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,16 +21,22 @@ public class Mascota {
     @GenericGenerator(name = "uuid" , strategy ="uuid2")
     private String id;
     
-    
     private String nombre;
-    @Temporal(TemporalType.TIMESTAMP)
+    
+    @Temporal(TemporalType.DATE)
     private Date alta;
-    @Temporal(TemporalType.TIMESTAMP)
+    
+    @Temporal(TemporalType.DATE)
     private Date baja;
+    
     @ManyToOne
     private Usuario usuario;
+    
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+    
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
     
     @OneToOne
     private Foto fotoMascota;
@@ -39,13 +44,15 @@ public class Mascota {
 //  Constuctors
     public Mascota() {
         this.baja = null;
+        this.alta = new Date();
     }
    
-    public Mascota(String nombre ,Usuario usuario,Sexo sexo){
+    public Mascota(String nombre ,Usuario usuario,Sexo sexo, Tipo tipo){
         this.nombre = nombre;
         this.alta = new Date();
         this.usuario = usuario;
         this.sexo = sexo;
+        this.tipo = tipo;
     this.baja = null;
     }
     
@@ -77,6 +84,10 @@ public class Mascota {
     public Sexo getSexo() {
         return sexo;
     }
+    public Tipo getTipo() {
+        return tipo;    
+    }
+    
     public Foto getFotoMascota() {
         return fotoMascota;
     }    
@@ -109,6 +120,13 @@ public class Mascota {
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
+    
+    
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+    
+    
     public void setFotoMascota(Foto fotoMascota) {
         this.fotoMascota = fotoMascota;
     }       

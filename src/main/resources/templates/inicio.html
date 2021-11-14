@@ -27,7 +27,7 @@
   <!-- Navigation -->
    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Tinder de Mascota</a>
+      <a class="navbar-brand" href="/">Tinder de Mascota</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -49,9 +49,10 @@
         Sprinboot sobreescrito en ServicioUsuario, rescato la info del usuario y la 
         muestro en pantalla:-->
         <h2 class="masthead-subheading mb-0" th:if="${session.usuariosession != null}" th:text="'Bienvenido '+${session.usuariosession.nombre + ' ' + session.usuariosession.apellido + '!!'}"></h2> 
-        
+        <p class="masthead-subheading " th:if="${msg != null}" th:text="${msg}" ></p>
         
         <a th:href="@{/usuario/editar-perfil(id = __${session.usuariosession.id}__)}" class="btn btn-primary btn-xl rounded-pill mt-5">¡Configura tu Perfil!</a>
+        <a th:href="@{/mascota/editar-perfil}" class="btn btn-primary btn-xl rounded-pill mt-5">¡Añade a tu mascota!</a>
       </div>
     </div>
     <div class="bg-circle-1 bg-circle"></div>

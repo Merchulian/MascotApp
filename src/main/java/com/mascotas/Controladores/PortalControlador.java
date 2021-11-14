@@ -51,8 +51,9 @@ public class PortalControlador {
     
     @GetMapping("/inicio")
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    public String pantallaInicio(){
-
+    public String pantallaInicio(ModelMap modelo, @RequestParam(required = false) String msg){
+        modelo.put("msg",msg);
+        
         return "inicio.html";
     }
     

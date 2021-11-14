@@ -68,10 +68,12 @@ public class ServicioUsuario implements UserDetailsService{
         nuevoUsuario.setApellido(apellido);
         nuevoUsuario.setEmail(mail);
         // ingreso de la foto de perfil:
-        if(archivo !=null){
-        Foto foto = sFoto.convertirArchivoAFoto(archivo);
-        nuevoUsuario.setFotoUsuario(foto);}
-        else{nuevoUsuario.setFotoUsuario(null);}
+        if(archivo !=null && !archivo.isEmpty()){
+            Foto foto = sFoto.convertirArchivoAFoto(archivo);
+            nuevoUsuario.setFotoUsuario(foto);
+        }else{
+            nuevoUsuario.setFotoUsuario(null);
+        }
         //Compruebo que el id de la Zona sea valido
         System.out.println("buscando zona");
         Optional<Zona> rta = zRep.findById(idZona);    // buscar la zona a la que corresponde el id
@@ -167,8 +169,9 @@ public class ServicioUsuario implements UserDetailsService{
         Este metodo llama al servicio subirFoto() de ServicioFoto para subir un archivo
         y cargar sus datos como objeto JAVA. Este metodo se encarga de  persistir 
         la foto*/
-        Foto nuevaFoto = sFoto.convertirArchivoAFoto(archivo);
-        if(nuevaFoto != null){
+        if( archivo != null || !archivo.isEmpty() ){
+            Foto nuevaFoto = sFoto.convertirArchivoAFoto(archivo);
+        
             Optional<Usuario> consulta = uRep.findById(idDestino);  //busco usuario
             if(consulta.isPresent()){
                 Usuario usuario = consulta.get();
@@ -187,12 +190,12 @@ public class ServicioUsuario implements UserDetailsService{
         inamovibles*/   
 
         try{
-        Optional<Usuario> query = uRep.findById(id);
-        Usuario usuarioModificar = query.get();
+            Optional<Usuario> query = uRep.findById(id);
+            Usuario usuarioModificar = query.get();
             System.out.println("mime foto actual: " + usuarioModificar.getFotoUsuario().getMime());
         // ingreso de la foto de perfil:
         if(archivo !=null || archivo.isEmpty()){
-        Foto foto = sFoto.convertirArchivoAFoto(archivo);
+            Foto foto = sFoto.convertirArchivoAFoto(archivo);
             System.out.println(foto.getMime());
             if( !foto.getMime().equals("application/octet-stream") ){
                 usuarioModificar.setFotoUsuario(foto);
@@ -206,13 +209,13 @@ public class ServicioUsuario implements UserDetailsService{
             usuarioModificar.setZonaUsuario(zona);
         }
         // cambio de clave:
-            System.out.println("clave actual: " + clave1);
-            System.out.println(clave2);
+        System.out.println("clave actual: " + clave1);
+        System.out.println(clave2);
         if(clave1.length()>=8){
             if( clave1.equals(clave2) ){
             String claveEncrypt = new BCryptPasswordEncoder().encode(clave1);
             usuarioModificar.setClave(claveEncrypt);
-                System.out.println("clave actualizada!");
+            System.out.println("clave actualizada!");
             }
         }
         uRep.save(usuarioModificar);
